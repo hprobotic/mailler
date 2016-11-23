@@ -1,10 +1,9 @@
 ﻿<?php
 require 'phpmailer/PHPMailerAutoload.php';
-if ($_POST){
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 	foreach($_POST as $nombre_campo => $valor){
 		$$nombre_campo = $valor;
 	}
-
 	switch ($type){
 		case 'send-mail':
 			$sender_config['smtp'] = "smtp.gmail.com";
@@ -16,9 +15,8 @@ if ($_POST){
 			$message_config['to'] = "hprobotic@gmail.com";
 			$message_config['toname'] = "Hoi Pham";
 			$message_config['subject'] = "Tieu de";
-			$message_config['body'] = "Noi dung";
+			$message_config['body'] = $body;
 			$result = send_mail($sender_config, $message_config);
-			var_dump($result); exit;
 		break;
 	}
 
@@ -27,8 +25,9 @@ if ($_POST){
 
 function send_mail($sender, $message){
 	$mail = new PHPMailer;
-	$mail->SMTPDebug = 2;
+	//$mail->SMTPDebug = 2;
 	$mail->isSMTP();
+$mail->Debugoutput = 'html';
 	$mail->Host = $sender['smtp'];
 	$mail->SMTPAuth = true;
 	$mail->Username = $sender['user'];
@@ -41,10 +40,9 @@ function send_mail($sender, $message){
 	$mail->isHTML(true);
 	$mail->Subject = $message['subject'];
 	$mail->Body    = $message['body'];
-	var_dump($mail->send()); exit;
 	if (!$mail->send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
+	    return array("ms " => "Mailer Error: " . $mail->ErrorInfo, "err" => 1);
 	} else {
-	    echo "Message sent!";
+		return array("msg" => "Message sent!", "err" => 0);
 	}
 }
