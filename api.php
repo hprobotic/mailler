@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 			$sender_config['smtpsecure'] = "tls";
 			$message_config['from'] = "lienminhthot@gmail.com";
 			$message_config['fromname'] = "Lien Minh";
-			$message_config['to'] = "hprobotic@gmail.com";
-			$message_config['toname'] = "Hoi Pham";
-			$message_config['subject'] = "Tieu de";
+			$message_config['to'] = "thanhnp2610@gmail.com";
+			$message_config['toname'] = "Thanh Nguyen";
+			$message_config['subject'] = "Request for demo";
 			$message_config['body'] = $body;
 			$result = send_mail($sender_config, $message_config);
 		break;
